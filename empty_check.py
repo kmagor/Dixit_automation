@@ -14,6 +14,12 @@ img = cv2.imread("sablon_pottyok_sok.jpg", cv2.IMREAD_GRAYSCALE)
 _, threshold = cv2.threshold(img, 240, 255, cv2.THRESH_BINARY)
 contours, _ = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
+#canny image modification
+cannyke = cv2.Canny(img,2,70,L2gradient=0)
+
+#just to check the values in the image.
+print(img)
+
 for cnt in contours:
     approx = cv2.approxPolyDP(cnt, 0.01*cv2.arcLength(cnt, True), True)
     cv2.drawContours(img, [approx], 0, (166), 5)
@@ -49,7 +55,7 @@ for cnt in contours:
                     #print(hanyadik_karika, ". kör benne van az a " + str(x) + ". kontúrban")
                     for d in range(1,hanyadik_negyzet):
                         if RECT_num_and_content[1][d] == x:
-                            print(hanyadik_karika, ". kör benne van az a " + str(RECT_num_and_content[0][d]) + ". négyzetben")
+                            print("[[[",hanyadik_karika, ". kör benne van az a " + str(RECT_num_and_content[0][d]) + ". négyzetben ]]]")
 
         print("KARIKA:",hanyadik_karika, ". karika pozicioja:", x, y)
         hanyadik_karika = hanyadik_karika + 1
@@ -66,5 +72,6 @@ print("--------------")
 print(RECT_num_and_content)
 cv2.imshow("shapes", img)
 cv2.imshow("Threshold", threshold)
+cv2.imshow("Canny", cannyke)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
